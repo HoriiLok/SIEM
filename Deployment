@@ -1,0 +1,45 @@
+1 - Deployment of a Debian 11 virtual machine on Microsoft Azure done (2 vcpu / 8Gb RAM)
+
+2 - ElasticSearch pre-requisites installation : 
+Java RE : Check if Java RE is already installed / java -version
+Java RE isn't installed yet.
+Java DK : Check if Java DK is already installed / javac -version
+Java DK isn't installed yet
+
+3 - Java Runtime Environment installation : sudo apt install default-jre
+java -version : 
+openjdk version "11.0.18" 2023-01-17
+OpenJDK Runtime Environment (build 11.0.18+10-post-Debian-1deb11u1)
+OpenJDK 64-Bit Server VM (build 11.0.18+10-post-Debian-1deb11u1, mixed mode, sharing)
+
+4 - Java Development Kit installation : sudo apt install default-jdk
+javac -version :
+javac 11.0.18
+
+5 - Install cURL : sudo apt install curl
+
+6 - Installing GnuPG : sudo apt install gpg
+
+7 - Importing ElasticSearch public GPG key into apt : 
+curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+8 - Adding the Elastic source list to sources.list.d directory (apt command directory to look for sources)
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+9 - Updating the package lists to be able to download elasticsearch :
+sudo apt update
+
+10 - Installing elastic search : 
+sudo apt install elasticsearch
+
+11 - Elastic Search configuration : 
+sudo nano /etc/elasticsearch/elasticsearch.yml
+Edits : 
+#network.host: localhost
+to network.host: 74.234.120.168
+#http.port: 9200
+to http.port: 9200
+
+12 - Firewall setup (NSG) on Azure for Elastic search :
+Allow SRC 194.69.103.31 on 9200
+Deny SRC any on 9200
