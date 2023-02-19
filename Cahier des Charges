@@ -1,0 +1,130 @@
+                    # Cahier des charges concernant le brief SIEM
+
+  - Contexte : Amélioration de la sécurité du SI Haribo via une refonte complète de l'infra.
+  - Composition et config du SOC : 
+                            SIEM hébergé sur Azure
+                            Agents installés sur les machines
+                            Récolte de logs de monitoring de toutes les machines sans AUCUNE
+                            exception et des programmes listés.
+                            Envoi d'altertes via l'outil de ticketing interne lorsqu'un Use Case
+                            est détecté.
+       
+   - Création d'un POC via la mise en place de la solution dans un environnement virtuel pour 
+   présentation client.
+   
+   - Priorité : Envoi des logs d'un maximul de services et configuration des alertes en fonction des
+   Use Cases.
+   
+   # Architecture du SI
+   
+   - 4 Machines virtuelles et une machine Azure : 
+                                                  vm-network : Pas d'environnement graphique
+                                                               Serveur DNS
+                                                               Serveur DHCP
+                                                  
+                                                  vm-gate : Pas d'environnement graphique
+                                                            Gateway de vm-servers & de vm-users
+                                                            Mise à disposition d'un proxy http 
+                                                            permettant l'accès intra et internet
+                                                            
+                                                  vm-servers : Pas d'environnement graphique
+                                                               Serveur HTTP exposant un intranet
+                                                               
+                                                  vm-users : Environnement graphique
+                                                             Utilise le DNS de vm-network
+                                                             Utilise le DHCP de vm-network
+                                                             Accès à l'intranet via intra.haribo.lan
+                                                             Machine jointe au domaine haribo.lan
+                                                  
+                                                  SIEM : VM Azure
+                                                         Outil de collecte, d'agrégation de recherche
+                                                         de données.
+                                                         Dispositif d'alerte et interface graphique
+                                               
+Adressage : vm-users en IP auto & dynamique
+            vm-servers IP fixe automatiquement
+            DNS distribué sur toutes les machines
+            
+Amélioration du filtrage proxy demandé par le client concernant l'accès au web
+Accès à internet par toutes les machines via la gateway
+
+Serveur HTTP : 
+Le programme (Apache) doit être executé sous l'utilisateur "intranet-server"
+Authentification basic obligatoire pour accès aux ressources 
+La version du serveur ne doit pas apparaître en cas d'erreur
+Dans le dossier /intranet-server/home on trouvera un /log avec logs d'erreurs et de connexion
+Dans /intranet-server/home on trouvera un /www contenant les fichiers mis à dispo
+HTTPS a mettre en place avec certifs signés grâce a l'autorité de certif de l'entreprise Haribo
+Si une IP récolte 3 tentatives échoués en 6h son IP sera bannie 24h
+Mettre en place une redirection 80 > 443
+Les dossiers log et www dans le /intranet-server/home ne pourront être RWX que par root, impossible pour les autres utilisateurs
+
+Antimalware : 
+Un antimalware opensource devra être installé sur chaque machine du SI
+Mettre a jour la base de l'antimalware via le fichier signature de Haribo
+
+Scan de port : 
+Un programme detectant les IPS effectuants du port scan devra être installé
+Il ne devra pas bannir les IPS scannant mais uniquement logger les infos dans un fichier
+
+Remote : 
+Un programme permettant de se connecter à toutes les machines sera présent via protocole SSH
+Authentification root désactivé, y compris par clé
+Si une IP récolte 2 echecs de connexion en moins de 6h, IP bannie 2 minutes
+Le SSH server devra logger chaque connexion échouée ou réussie.
+Le client souhaites une proposition d'amélioration de la sécurité de la connexion à distance
+
+SIEM : 
+Tous les envois de logs ainsi que l'API HTTP devront utiliser le protocole TLS.
+Les certifs devront provenir de la CA Haribo
+Chaque service qui envoie des logs disposera de son propre index.
+Il sera possible d'effectuer des recherches via le param timestamp des logs en fonction de leur 
+date de création
+
+Haribo souhaite que l'on utilise Kibana pour visualiser les données et effectuer de l'alerting : 
+3 users auront accès : analyste, client, admin
+Chaque service envoyant des logs aura son propre index.
+Possibilitée de rechercher les logs grace au timestamp en fonction de leur date de création
+Le compte analyste ne pourra pas créer d'index, mais poura créer des dashboards
+Le compte client ne pourra créer ni données, ni dashboard, il ne pourra que visualiser les dashboard
+des analystes et les données des index
+Le compte admin aura un accès à toutes les fonctionnalités.
+
+Utiliser les agents Beats de la suite Elastic pour la collecte et l'envoi de logs.
+Les logs devront être envoyés par TLS
+Utiliser metricbeat pour les logs de monitoring
+
+Spécifications techniques et fonctionnelles du SOC
+SIEM
+Le client HARIBO souhaite que vous utilisez l’outil Elasticsearch pour la collecte, l'agrégation
+et la recherche de données.
+● Tous les envois de logs ainsi que l’API HTTP devront être effectués en utilisant le
+protocole TLS. Les certificats utilisés devront provenir de l'autorité de certification de
+l’entreprise HARIBO.
+● Chaque service qui envoie des logs disposera de son propre index. Il sera possible
+de rechercher grâce au paramètre timestamp les logs en fonction de leur date de
+création.
+Le client HARIBO souhaite que vous utilisez l’outil KIBANA pour la visualisation de la
+donnée ainsi que l’alerting.
+● Trois utilisateurs auront accès à l’interface de kibana : analyste, client et admin.
+● Chaque service dont on disposera de logs aura son propre index. Il sera possible de
+rechercher grâce au paramètre timestamp les logs en fonction de leur date de
+création.
+● Le compte analyste ne pourra pas créer d’index. Le compte pourra cependant créer
+des dashboard
+● Le compte client ne pourra pas créer de donnée ni de dashboard, le compte pourra
+seulement visualiser les dashboard des analystes et les données des index.
+● Le compte admin aura un accès administrateur sur toutes les fonctionnalités
+Le client HARIBO souhaite que vous utilisez les agents Beats de la suite elastic afin de
+collecter et d’envoyer les logs
+● Les logs devront toujours être envoyés grâce au protocole TLS.
+● Vous utiliserez l’agent metricbeat pour les logs de monitoring.
+Use Case sécurité
+Chaque Use Case sécurité devra lever une alerte.
+● Détecter si une machine a un problème de consommation au niveau de la
+RAM, du CPU ou des disques.
+● Détecter si une IP tente de faire du bruteforce sur les outils de connexion à
+distance
+● Détecter si un malware est présent sur une machine
+● Détecter si une IP n’appartenant pas au réseau local se connecte à l’intranet
+● Détecter si une IP tente de faire du bruteforce sur l’intranet
