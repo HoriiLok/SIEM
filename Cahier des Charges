@@ -1,4 +1,4 @@
-                    # Cahier des charges concernant le brief SIEM
+                             # Cahier des charges concernant le brief SIEM
 
   - Contexte : Amélioration de la sécurité du SI Haribo via une refonte complète de l'infra.
   - Composition et config du SOC : 
@@ -19,27 +19,41 @@
    
    - 4 Machines virtuelles et une machine Azure : 
                                                   vm-network : Pas d'environnement graphique
+                                                               IP : 10.0.0.11
                                                                Serveur DNS (Bind9)
-                                                               Serveur DHCP 
+                                                               Serveur DHCP (isc-dhcp-server)
+                                                               Antimalware
+                                                               Domaine
                                                   
                                                   vm-gate : Pas d'environnement graphique
+                                                            IP : 10.0.0.10
+                                                            Bridged : 192.168.1.220
                                                             Gateway de vm-servers & de vm-users
-                                                            Mise à disposition d'un proxy http 
+                                                            Mise à disposition d'un proxy http (Squid)
                                                             permettant l'accès intra et internet
+                                                            Antimalware
+                                                            Blocage de ports (Portsentry)
+                                                            Reverse proxy (NginX)
+                                                            Banissement d'IP (Fail2ban)
                                                             
                                                   vm-servers : Pas d'environnement graphique
-                                                               Serveur HTTP exposant un intranet
+                                                               IP : 10.0.0.12
+                                                               Serveur HTTP exposant un intranet (Apache2)
+                                                               Antimalware
                                                                
                                                   vm-users : Environnement graphique
+                                                             IP : 10.0.0.13
                                                              Utilise le DNS de vm-network
                                                              Utilise le DHCP de vm-network
                                                              Accès à l'intranet via intra.haribo.lan
                                                              Machine jointe au domaine haribo.lan
-                                                  
+                                                             Antimalware
+                                                             
                                                   SIEM : VM Azure
                                                          Outil de collecte, d'agrégation de recherche
-                                                         de données.
-                                                         Dispositif d'alerte et interface graphique
+                                                         de données. (Elastic Search)
+                                                         Dispositif d'alerte et interface graphique (
+                                                         Antimalware
                                                
 Adressage : vm-users en IP auto & dynamique
             vm-servers IP fixe automatiquement
@@ -128,3 +142,8 @@ distance
 ● Détecter si un malware est présent sur une machine
 ● Détecter si une IP n’appartenant pas au réseau local se connecte à l’intranet
 ● Détecter si une IP tente de faire du bruteforce sur l’intranet
+
+
+
+
+
