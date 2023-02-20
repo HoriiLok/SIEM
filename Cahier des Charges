@@ -19,8 +19,8 @@
    
    - 4 Machines virtuelles et une machine Azure : 
                                                   vm-network : Pas d'environnement graphique
-                                                               Serveur DNS
-                                                               Serveur DHCP
+                                                               Serveur DNS (Bind9)
+                                                               Serveur DHCP 
                                                   
                                                   vm-gate : Pas d'environnement graphique
                                                             Gateway de vm-servers & de vm-users
