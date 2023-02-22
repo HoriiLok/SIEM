@@ -18,7 +18,7 @@
    # Architecture du SI
    
    - 4 Machines virtuelles et une machine Azure : 
-                                                  vm-network : Pas d'environnement graphique
+                                                1.   vm-network : Pas d'environnement graphique
                                                                IP : 10.0.0.11
                                                                Serveur DNS (Bind9)
                                                                Serveur DHCP (isc-dhcp-server)
