@@ -8,7 +8,7 @@ Debian sans interface |Mise a disposition d'un DNS |d'un DHCP Domaine DNS : hari
 2. installer portsentry
 3. installer openssh : 
 	- root auth désactivé même par clé
-	- 2 tentatives échoues en 6h : ban 2 minutes
+	- 2 tentatives de connections échoues en 6h : ban 2 minutes
 	- log de chaque connexon échouée ou réussie
 
 vm-gate : 
