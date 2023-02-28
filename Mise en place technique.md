@@ -6,7 +6,7 @@
 Debian sans interface |Mise a disposition d'un DNS |d'un DHCP Domaine DNS : haribo.lan
 
 1. Installer clamAv  | clamaV daemon | search antimalware en real-time | OK
-2. installer portsentry  | A FAIRE
+2. installer portsentry  | OK
 3. installer openssh : 
 	- root auth désactivé même par clé | OK
 	- log de chaque connexon échouée ou réussie ( log type : **VERBOSE** )| OK ![image](https://user-images.githubusercontent.com/111575087/221578677-3949cd7a-ad83-4000-82ad-7969eda09282.png)
