@@ -67,9 +67,19 @@ vm-users :
 Debian graphique
 IP auto
 DNS auto
+1. Installer clamAV
+2. installer Portsentry
+3. installer openssh :
+	- root désactivé même par clé
+	- 2 tentatives échoues en 6h : ban 2 minutes
+	- log de chaque connexion échouée ou réussie
+
+Installation de Metric & filebeat
+
+
 
 SIEM Composition
-
+##########################################################################################"
 Hebergé sur AZURE
 
 
