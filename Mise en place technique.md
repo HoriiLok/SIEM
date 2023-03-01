@@ -207,4 +207,4 @@ Remonté de log :
 	1. fail2ban    = /etc/var/log/fail2ban.log
 	2. portsentry  = /etc/var/log/syslog
 	3. clamAV      = /etc/var/log/clamav/clamav.log
-
+	4. Apache2     = /etc/var/log/apache2/access.log/error.log
