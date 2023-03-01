@@ -203,3 +203,8 @@ Pour utiliser des certificats dans Elasticsearch, vous devez créer une autorit�
 
 - le privilège **"read_ilm" (Index Lifecycle Management)** permet de lire les informations sur les politiques d'ILM, les index qui ont des politiques appliquées et les transitions d'état d'index. Donc, si vous sélectionnez ce privilège, l'utilisateur Analyste pourra lire les index ***existants.***
 
+Remonté de log : 
+	1. fail2ban    = /etc/var/log/fail2ban.log
+	2. portsentry  = /etc/var/log/syslog
+	3. clamAV      = /etc/var/log/clamav/clamav.log
+
