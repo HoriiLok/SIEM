@@ -197,7 +197,7 @@ Pour utiliser des certificats dans Elasticsearch, vous devez créer une autorit�
 6. **Signer chaque certificat avec le certificat de l'autorité de certification.**
 
 
-***Modifications du fichier de configuration MetricBeat***
+*Modifications du fichier de configuration MetricBeat*
 # =================================== Kibana ===================================
 
 # Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
