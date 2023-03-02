@@ -220,3 +220,6 @@ Pour utiliser des certificats dans Elasticsearch, vous devez créer une autorit�
 - proxy ( Squid ): detection si tentative de site interdit
 
 - health ( Metricbeat Module system) : Consommation RAM | CPU | Disk states check filebeat / metricbeat
+
+**"log.file.path":"/var/log/clamav/clamav.log"** : cette commande permet de cibler les log qu'on desire et une fois au bon endroit de déteerminer les keyword attendu.
+
